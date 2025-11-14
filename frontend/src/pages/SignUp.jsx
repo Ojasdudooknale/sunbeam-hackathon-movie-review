@@ -1,9 +1,74 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { register } from '../services/users'
+import { toast } from 'react-toastify'
 
 const SignUp = () => {
+
+    const [firstName, setFirstName] = useState("")
+    const [lastName, setLastName] = useState("")
+    const [mobileNo, setMobileNo] = useState("")
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
+    const [confirmPassword, setConfirmPassword] = useState("")
+    const [date, setDate] = useState(null)
+
+    const navigate = useNavigate()
+
+    const onRegister = async () => {
+
+        console.log(
+            firstName,
+            lastName,
+            email,
+            password,
+            mobileNo, // Use mobileNo here
+            date
+        );
+        if (firstName.length == 0) {
+            toast.warning('please enter first name')
+        } else if (lastName.length == 0) {
+            toast.warning('please enter last name')
+        } else if (email.length == 0) {
+            toast.warning('please enter email')
+        } else if (mobileNo.length == 0) {
+            toast.warning('please enter phone number')
+        } else if (password.length == 0) {
+            toast.warning('please enter password')
+        } else if (confirmPassword.length == 0) {
+            toast.warning('please confirm password')
+        } else if (password != confirmPassword) {
+            toast.warning('password does not match')
+        } else {
+            console.log(
+                firstName,
+                lastName,
+                email,
+                password,
+                mobileNo,
+                date
+            );
+
+            const response = await register(
+                firstName,
+                lastName,
+                email,
+                password,
+                mobileNo,
+                date
+            )
+            if (response['status'] === 'success') {
+                toast.success('Successfully registered user')
+
+                navigate('/')
+            } else {
+                toast.error(response['error'])
+            }
+        }
+    }
+
     return (
         <>
-
             <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
                 <div className="sm:mx-auto sm:w-full sm:max-w-sm">
                     <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">
@@ -19,7 +84,6 @@ const SignUp = () => {
                                 <label htmlFor="firstName" className="block text-sm/6 font-medium text-gray-900">
                                     First Name
                                 </label>
-
                             </div>
                             <div className="mt-2">
                                 <input
@@ -28,6 +92,10 @@ const SignUp = () => {
                                     type="text"
                                     required
                                     className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                    onChange={(e) => {
+                                        setFirstName(e.target.value)
+                                    }
+                                    }
                                 />
                             </div>
                         </div>
@@ -37,7 +105,6 @@ const SignUp = () => {
                                 <label htmlFor="lastName" className="block text-sm/6 font-medium text-gray-900">
                                     Last Name
                                 </label>
-
                             </div>
                             <div className="mt-2">
                                 <input
@@ -45,21 +112,20 @@ const SignUp = () => {
                                     name="lastName"
                                     type="text"
                                     required
-
                                     className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                    onChange={(e) => {
+                                        setLastName(e.target.value)
+                                    }
+                                    }
                                 />
                             </div>
                         </div>
-
-
-
 
                         <div>
                             <div className="flex items-center justify-between">
                                 <label htmlFor="email" className="block text-sm/6 font-medium text-gray-900">
                                     Email Address
                                 </label>
-
                             </div>
                             <div className="mt-2">
                                 <input
@@ -67,23 +133,20 @@ const SignUp = () => {
                                     name="email"
                                     type="email"
                                     required
-
                                     className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                    onChange={(e) => {
+                                        setEmail(e.target.value)
+                                    }
+                                    }
                                 />
                             </div>
                         </div>
-
-
-
-
-
 
                         <div>
                             <div className="flex items-center justify-between">
                                 <label htmlFor="mobileno" className="block text-sm/6 font-medium text-gray-900">
                                     Mobile number
                                 </label>
-
                             </div>
                             <div className="mt-2">
                                 <input
@@ -91,19 +154,20 @@ const SignUp = () => {
                                     name="mobileno"
                                     type="text"
                                     required
-
                                     className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                    onChange={(e) => {
+                                        setMobileNo(e.target.value)
+                                    }
+                                    }
                                 />
                             </div>
                         </div>
-
 
                         <div>
                             <div className="flex items-center justify-between">
                                 <label htmlFor="date" className="block text-sm/6 font-medium text-gray-900">
                                     Date
                                 </label>
-
                             </div>
                             <div className="mt-2">
                                 <input
@@ -111,61 +175,73 @@ const SignUp = () => {
                                     name="date"
                                     type="date"
                                     required
-                                    autoComplete="current-password"
                                     className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                    onChange={(e) => {
+                                        setDate(e.target.value)
+                                    }
+                                    }
                                 />
                             </div>
                         </div>
 
+                        {/* Password Fields (added to complete the form) */}
                         <div>
-                            <div className="flex items-center justify-between">
-                                <label htmlFor="password" className="block text-sm/6 font-medium text-gray-900">
-                                    Password
-                                </label>
-
-                            </div>
+                            <label htmlFor="password"
+                                className="block text-sm/6 font-medium text-gray-900">
+                                Password
+                            </label>
                             <div className="mt-2">
                                 <input
                                     id="password"
                                     name="password"
                                     type="password"
+                                    autoComplete="new-password"
                                     required
-                                    autoComplete="current-password"
                                     className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                    onChange={(e) => {
+                                        setPassword(e.target.value)
+                                    }}
                                 />
                             </div>
                         </div>
 
                         <div>
-                            <div className="flex items-center justify-between">
-                                <label htmlFor="confirmpassword" className="block text-sm/6 font-medium text-gray-900">
-                                    Confirm Password
-                                </label>
-
-                            </div>
+                            <label htmlFor="confirmPassword"
+                                className="block text-sm/6 font-medium text-gray-900">
+                                Confirm Password
+                            </label>
                             <div className="mt-2">
                                 <input
-                                    id="confirmpassword"
-                                    name="confirmpassword"
+                                    id="confirmPassword"
+                                    name="confirmPassword"
                                     type="password"
+                                    autoComplete="new-password"
                                     required
-                                    autoComplete="current-password"
                                     className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                    onChange={(e) => {
+                                        setConfirmPassword(e.target.value)
+                                    }}
                                 />
                             </div>
                         </div>
 
                         <div>
                             <button
-                                type="submit"
-                                className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+
+                                onClick={onRegister}
+                                className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                             >
                                 Register
                             </button>
                         </div>
                     </form>
 
-
+                    <p className="mt-10 text-center text-sm text-gray-500">
+                        Already have an account?{' '}
+                        <Link to="/" className="font-semibold text-indigo-600 hover:text-indigo-500">
+                            Sign In
+                        </Link>
+                    </p>
                 </div>
             </div>
         </>
@@ -173,12 +249,3 @@ const SignUp = () => {
 }
 
 export default SignUp
-
-
-
-
-
-
-
-
-
