@@ -11,6 +11,8 @@ import ProtectedRoute from './components/ProtectedRoute'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import AddReview from './pages/AddReview'
+import AllReviews from './pages/AllReviews'
+import MyReview from './pages/Myreview'
 
 
 function App() {
@@ -48,7 +50,8 @@ function App() {
             />
             <Route
               path='my-reviews'
-            //element={<PropertyDetails />}
+              element={<MyReview />}
+
             />
             <Route
               path='share-reviews'
@@ -60,7 +63,7 @@ function App() {
             />
             <Route
               path='all-reviews'
-            //element={<PropertyDetails />}
+              element={<AllReviews />}
             />
             <Route
               path='edit'

@@ -1,10 +1,10 @@
 import axios from 'axios'
 import { config } from './config'
 
-export async function getMovies() {
+export async function getAllReviews() {
     try {
         // create url
-        const url = `${config.server}/movie/allMovies`
+        const url = `${config.server}/review/allReviews`
 
         // create headers with require token
         // send GET request and get the response
@@ -13,26 +13,7 @@ export async function getMovies() {
                 token: localStorage.getItem('token'),
             },
         })
-
-        // return response body
-        return response.data
-    } catch (ex) {
-        console.log(`exception: `, ex)
-    }
-}
-
-export async function getMovieDetails(id) {
-    try {
-        // create url
-        const url = `${config.server}/movie/${id}`
-
-        // create headers with require token
-        // send GET request and get the response
-        const response = await axios.get(url, {
-            headers: {
-                token: localStorage.getItem('token'),
-            },
-        })
+        console.log("first")
         console.log(response.data)
 
         // return response body
@@ -42,23 +23,20 @@ export async function getMovieDetails(id) {
     }
 }
 
-export async function addMovieReview({ movieId, review, rating }) {
+export async function getMyReviews() {
     try {
         // create url
-        const url = `${config.server}/review/add`
-
-        const body = {
-            movieId,
-            review,
-            rating
-        }
+        const url = `${config.server}/review/my`
 
         // create headers with require token
-        const response = await axios.post(url, body, {
+        // send GET request and get the response
+        const response = await axios.get(url, {
             headers: {
                 token: localStorage.getItem('token'),
             },
         })
+        console.log("first")
+        console.log(response.data)
 
         // return response body
         return response.data
@@ -66,3 +44,6 @@ export async function addMovieReview({ movieId, review, rating }) {
         console.log(`exception: `, ex)
     }
 }
+
+
+

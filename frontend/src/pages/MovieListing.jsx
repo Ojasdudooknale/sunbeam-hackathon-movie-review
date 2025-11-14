@@ -43,8 +43,8 @@ function MovieListing() {
                             {/* You could add an image tag here if your data has image URLs */}
                             <div className="card-body">
                                 <h5 className="card-title">{movie.title}</h5>
-                                <p className="card-text">{movie.description}</p>
-                                <p className="card-text">Rating: {movie.rating}/5</p>
+                                <p className="card-text">{movie.releaseDate}</p>
+
                                 {/* Example of how to link to a review page using movie ID */}
                                 <button
                                     className="btn btn-primary"

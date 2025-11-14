@@ -6,13 +6,13 @@ import { getMovieDetails, addMovieReview } from '../services/movies';
 
 
 const AddReview = () => {
-    // Get the movieId from the URL parameters (must match the :movieId from App.js route)
+
     const { movieId } = useParams();
     const navigate = useNavigate();
 
     const [reviewText, setReviewText] = useState('');
     const [rating, setRating] = useState(0);
-    const [movieDetails, setMovieDetails] = useState(null); // State to store all movie details
+    const [movieDetails, setMovieDetails] = useState(null);
 
 
 
@@ -20,11 +20,10 @@ const AddReview = () => {
     const fetchMovieDetails = async () => {
 
         try {
-
             const response = await getMovieDetails(movieId);
+            if (response['status'] === 'success' && response['data']) {
 
-            if (response && response.status === 'success' && response.data) {
-                setMovieDetails(response.data);
+                setMovieDetails(response['data'])
             } else {
                 toast.error(response.error || 'Failed to load movie details.');
             }
@@ -33,16 +32,17 @@ const AddReview = () => {
         }
     };
 
-    // Effect hook to load movie details when the component mounts or movieId changes
+
     useEffect(() => {
         fetchMovieDetails();
     }, [movieId]);
+
 
     // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Client-side validation for rating range (1-10) and text presence
+
         if (rating < 1 || rating > 10 || reviewText.trim() === '') {
             toast.error('Please provide a valid rating between 1 and 10, and a review comment.');
             return;
@@ -73,12 +73,15 @@ const AddReview = () => {
         }
     };
 
-
+    // Add a check here: Render a loading state or return null until movieDetails is fetched
+    if (!movieDetails) {
+        return <div className="container mt-4">Loading movie details...</div>;
+    }
 
 
     return (
         <div className="container mt-4">
-            {/* Display the actual title fetched from the backend */}
+
             <h1>Create Review for: {movieDetails.title}</h1>
 
             <form onSubmit={handleSubmit} className="mt-4">
