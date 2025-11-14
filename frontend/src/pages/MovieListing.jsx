@@ -1,77 +1,56 @@
 import React, { useEffect, useState } from 'react'
-//import { deleteProperty, getProperties } from '../../services/properties'
+
 import { toast } from 'react-toastify'
-import TablePropertiesListing from '../components/GridPropertiesListing'
-import GridPropertiesListing from '../components/TablePropertiesListing'
+
 
 function MovieListing() {
-    // store all the properties
-    //const [properties, setProperties] = useState([])
+    // store all the movies
+    const [movies, setMovies] = useState([])
 
-    // store the current layout
-    const [layout, setLayout] = useState('grid')
 
-    // const getPropertiesList = async () => {
-    //     const response = await getProperties()
-    //     console.log(response)
-    //     if (response['status'] == 'success') {
-    //         // set the properties and re-render the component UI
-    //         setProperties(response['data'])
-    //     }
-    // }
 
-    // useEffect(() => {
-    //     // load the properties automatically when this component is launched
-    //     getPropertiesList()
-    // }, [])
+    const getMoviesList = async () => {
+        const response = await getMovies()
+        console.log(response)
+        if (response['status'] == 'success') {
+            // set the properties and re-render the component UI
+            setMovies(response['data'])
+        }
+    }
 
-    // const onDeleteProperty = async (id) => {
-    //     const response = await deleteProperty(id)
-    //     if (response['status'] == 'success') {
-    //         toast.success('Successfully deleted property')
+    useEffect(() => {
+        // load the properties automatically when this component is launched
+        getMoviesList()
+    }, [])
 
-    //         // call the get api again to load new list of properties
-    //         getPropertiesList()
-    //     } else {
-    //         toast.error(response['error'])
-    //     }
-    // }
+
 
     return (
-        <div>
-            <h1>Hello listing</h1>
-            {/* <div className='container'>
-                <h2 className='page-header'>Property Listing</h2>
-
-                <div className='btn-group mb-3'>
-                    <button
-                        onClick={() => setLayout('table')}
-                        className={`btn btn-primary ${layout == 'table' ? 'active' : ''}`}
-                    >
-                        table
-                    </button>
-                    <button
-                        onClick={() => setLayout('grid')}
-                        className={`btn btn-primary ${layout == 'grid' ? 'active' : ''}`}
-                    >
-                        grid
-                    </button>
-                </div>
-
-                {layout == 'table' && (
-                    <TablePropertiesListing
-                        properties={properties}
-                        onDeleteProperty={onDeleteProperty}
-                    />
-                )}
-
-                {layout == 'grid' && (
-                    <GridPropertiesListing
-                        properties={properties}
-                        onDeleteProperty={onDeleteProperty}
-                    />
-                )}
-            </div> */}
+        <div className="container mt-4">
+            <h2>All Movies</h2>
+            <div className="row gap-4">
+                {/* Use the map function to iterate over the movies array */}
+                {movies.map((movie) => (
+                    // Assign a unique key for React list rendering optimization
+                    <div key={movie.id} className="col-md-4">
+                        <div className="card" style={{ width: '18rem' }}>
+                            {/* You could add an image tag here if your data has image URLs */}
+                            <div className="card-body">
+                                <h5 className="card-title">{movie.title}</h5>
+                                <p className="card-text">{movie.description}</p>
+                                <p className="card-text">Rating: {movie.rating}/5</p>
+                                {/* Example of how to link to a review page using movie ID */}
+                                <button
+                                    className="btn btn-primary"
+                                    onClick={() => toast.info(`Navigating to review page for ${movie.title}`)}
+                                >
+                                    Review this movie
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                ))}
+            </div>
         </div>
     )
 }
