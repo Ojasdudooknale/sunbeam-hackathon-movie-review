@@ -14,8 +14,8 @@ function authorization(req, res, next) {
         //view payload in console
         console.log('JWT Payload:', payload); 
         
-        req.headers.userId = payload.uid
-        req.userId = payload.uid
+        req.headers.userId = payload.id
+        req.userId = payload.id
 
         req.headers.email = payload.email
         req.email = payload.email
