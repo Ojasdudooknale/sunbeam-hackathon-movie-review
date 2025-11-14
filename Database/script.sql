@@ -19,7 +19,7 @@ CREATE TABLE users (
     birth DATE
 );
 
--- Create the reviews table
+-- Create the reviews table with ON DELETE CASCADE for user_id
 CREATE TABLE reviews (
     id INT PRIMARY KEY AUTO_INCREMENT,
     movie_id INT,
@@ -27,15 +27,15 @@ CREATE TABLE reviews (
     rating INT,
     user_id INT,
     modified TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE, -- Ensures reviews are deleted when a user is deleted
     FOREIGN KEY (movie_id) REFERENCES movies(id)
 );
 
--- Create the shares junction table (assuming both columns form a composite primary key)
+-- Create the shares junction table with ON DELETE CASCADE for user_id and review_id
 CREATE TABLE shares (
     review_id INT,
     user_id INT,
     PRIMARY KEY (review_id, user_id),
-    FOREIGN KEY (review_id) REFERENCES reviews(id),
-    FOREIGN KEY (user_id) REFERENCES users(id)
+    FOREIGN KEY (review_id) REFERENCES reviews(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
