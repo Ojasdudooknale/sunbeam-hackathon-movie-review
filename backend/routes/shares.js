@@ -4,7 +4,7 @@ const result = require('../utils/result');
 
 const router = express.Router();
 
-//Get reviews that have been shared with the authenticated user ("Display Reviews Shared with Me")
+//Get reviews that have been shared with the user
 router.get('/sharedWithMe', (req, res) => {
     const receivingUserId = req.userId; 
 
@@ -20,29 +20,39 @@ router.get('/sharedWithMe', (req, res) => {
     });
 });
 
-// 2. Share a review with another user ("Share Review")
+// 2. Share a review with another user using their EMAIL
 router.post('/share', (req, res) => {
-    const { reviewId, targetUserId } = req.body;
+    const { reviewId, targetUserEmail } = req.body;
 
-    const sql = `INSERT INTO shares (reviewId, userId) VALUES (?, ?);`;
-    
-    pool.query(sql, [reviewId, targetUserId], (error, data) => {
-        if (error && error.code === 'ER_DUP_ENTRY') {
-            res.status(409).send(result.createResult('This review has already been shared with this user.'));
-        } else {
-            res.send(result.createResult(error, data));
+    const findUserIdSql = `SELECT id FROM users WHERE email = ?;`;
+
+    pool.query(findUserIdSql, [targetUserEmail], (error, userData) => {
+        if (error || !userData || userData.length === 0) {
+            
+            return res.send(result.createResult('Target user email not found.'));
         }
-    });
-});
 
-// 3. Stop sharing a specific review with a specific user (Delete the share record)
-router.delete('/unshare', (req, res) => {
-    const { reviewId, targetUserId } = req.body;
-    
-    const sql = `DELETE FROM shares WHERE reviewId = ? AND userId = ?;`;
-    
-    pool.query(sql, [reviewId, targetUserId], (error, data) => {
-        res.send(result.createResult(error, data));
+        // We found the target user's ID
+        const targetUserId = userData[0].id;
+        
+
+        if (targetUserId === req.userId) {
+             return res.send(result.createResult('Cannot share a review with yourself.'));
+        }
+
+        const insertShareSql = `INSERT INTO shares (reviewId, userId) VALUES (?, ?);`;
+        
+        pool.query(insertShareSql, [reviewId, targetUserId], (shareError, shareData) => {
+            if (shareError) {
+                if (shareError.code === 'ER_DUP_ENTRY') {
+                    res.send(result.createResult('This review has already been shared with this user.'));
+                } else {
+                    res.send(result.createResult(shareError.message || 'Error sharing review'));
+                }
+            } else {
+                res.send(result.createResult(null, { message: `Review ${reviewId} shared successfully with user ${targetUserId}.` }));
+            }
+        });
     });
 });
 

@@ -40,7 +40,7 @@ router.get('/my', (req, res) => {
     });
 });
 
-// 5. Add a new review ("Create a Review")
+//Add a new review ("Create a Review")
 router.post('/add', (req, res) => {
     const userId = req.userId;
     const { movieId, review, rating } = req.body;
@@ -51,7 +51,7 @@ router.post('/add', (req, res) => {
     });
 });
 
-// 6. Update a review by ID ("Edit Review") - Ensures ownership
+//Update a review by ID ("Edit Review") - Ensures ownership
 router.put('/update/:id', (req, res) => {
     const { id } = req.params;
     const userId = req.userId;
