@@ -79,11 +79,59 @@ router.get('/allUsers', (req,res)=>{
 
 //get user by email
 router.get('/profile', (req,res)=>{
-    const userEmail = req.email
-    const sql = `select * from users where email = ?;`
-    pool.query(sql,[req.email],(error,data)=>{
-        res.send(result.createResult(error,data))
+    const userId = req.userId 
+
+    if (!userId) {
+        return res.send(result.createResult('Unauthorized: Missing user ID from token'));
+    }
+
+    const sql = `SELECT firstName, lastName, email, mobileNo, birthDate FROM users WHERE id = ?;`
+    pool.query(sql,[userId],(error,data)=>{
+         if (error) {
+            res.send(result.createResult(error, null));
+            return;
+        }
+
+        if (data.length > 0) {
+            res.send(result.createResult(null, data[0]));
+        } else {
+            res.send(result.createResult('User not found', null));
+        }
     })
 })
+
+router.put('/profile/update', async (req, res) => {
+    const userId = req.userId; 
+
+    if (!userId) {
+        return res.status(401).send(result.createResult('Unauthorized: Missing user ID from token'));
+    }
+    
+    const { firstName, lastName, mobileNo, birthDate } = req.body;
+
+    const sql = `
+        UPDATE users 
+        SET firstName = ?, lastName = ?, mobileNo = ?, birthDate = ? 
+        WHERE id = ?;
+    `;
+    
+    pool.query(
+        sql, 
+        [firstName, lastName, mobileNo, birthDate, userId], 
+        (error, data) => {
+            if (error) {
+                res.send(result.createResult(error));
+                return;
+            }
+
+            if (data && data.affectedRows > 0) {
+                res.send(result.createResult(null, { message: 'Profile updated successfully' }));
+            } else {
+                res.send(result.createResult('User not found or no changes made', null));
+            }
+        }
+    );
+});
+
 
 module.exports = router
