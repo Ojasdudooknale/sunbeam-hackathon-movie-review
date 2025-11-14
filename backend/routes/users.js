@@ -41,7 +41,7 @@ router.post('/login', (req,res)=>{
             
             if(check){
                 const payload={
-                    uid:dbuser.uid
+                    uid:dbuser.id
                 }
 
                 const token = jwt.sign(payload,config.secret);
@@ -60,9 +60,26 @@ router.post('/login', (req,res)=>{
 })
 
 //delete user
-router.delete('/delete', async(req,res)=>{
+router.delete('/delete', (req,res)=>{
     const{email} = req.body;
     const sql = `delete from users where email = ?`
+    pool.query(sql,[email],(error,data)=>{
+        res.send(result.createResult(error,data))
+    })
+})
+
+//get users
+router.get('/allUsers', async(req,res)=>{
+    const sql = `select * from users;`
+    pool.query(sql,(error,data)=>{
+        res.send(result.createResult(error,data))
+    })
+})
+
+//get user by email
+router.get('/profile', async(req,res)=>{
+    const email = req.body
+    const sql = `select * from users where email = ?;`
     pool.query(sql,[email],(error,data)=>{
         res.send(result.createResult(error,data))
     })
