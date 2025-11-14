@@ -10,6 +10,7 @@ import AuthProvider from './providers/AuthProvider'
 import ProtectedRoute from './components/ProtectedRoute'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
+import AddReview from './pages/AddReview'
 
 
 function App() {
@@ -54,8 +55,8 @@ function App() {
             //element={<PropertyDetails />}
             />
             <Route
-              path='add-review'
-            //element={<AddProperty />}
+              path='add-review/:movieId'
+              element={<AddReview />}
             />
             <Route
               path='all-reviews'

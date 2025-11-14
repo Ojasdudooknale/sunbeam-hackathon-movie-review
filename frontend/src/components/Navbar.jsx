@@ -31,27 +31,27 @@ function Navbar() {
             <div className='container-fluid'>
                 <nav class="navbar navbar-expand-lg bg-body-tertiary">
                     <div class="container-fluid">
-                        <Link to='' class="navbar-brand">Movie Reviews</Link>
+                        <Link to='home/movies' className="navbar-brand">Movie Reviews</Link>
                         <button class="navbar-toggler" type="button" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
                         </button>
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             <li class="nav-item">
-                                <Link class="nav-link active" to='display-all-movies' aria-current="page" href="#">All Movies</Link>
+                                <Link class="nav-link active" to='home/movies' aria-current="page" href="#">All Movies</Link>
                             </li>
                             <li class="nav-item">
-                                <Link class="nav-link" to="my-reviews">My Reviews</Link>
+                                <Link class="nav-link" to="home/my-reviews">My Reviews</Link>
                             </li>
                             <li class="nav-item">
-                                <Link class="nav-link" to="shared-with-me">Shared with me</Link>
+                                <Link class="nav-link" to="home/share-reviews">Shared with me</Link>
                             </li>
                             <li class="nav-item">
                                 <Link class="nav-link" to="all-reviews">All Reviews</Link>
                             </li>
                         </ul>
                         <div class="d-flex gap-4 align-items-center">
-                            <Link to="edit-profile" className='nav-link'>Edit Profile</Link>
-                            <Link to='change-password' className='nav-link'>Change Password</Link>
+                            <Link to="edit" className='nav-link'>Edit Profile</Link>
+                            <Link to='change-pass' className='nav-link'>Change Password</Link>
                             <button class="btn text-warning" type="submit" onClick={onLogout}>Logout</button>
                         </div>
                     </div>

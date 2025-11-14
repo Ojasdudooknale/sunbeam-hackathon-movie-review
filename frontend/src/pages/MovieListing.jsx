@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react'
 
 import { toast } from 'react-toastify'
 import { getMovies } from '../services/movies'
+import { useNavigate } from 'react-router-dom'
 
 
 function MovieListing() {
     // store all the movies
     const [movies, setMovies] = useState([])
 
-
+    const navigate = useNavigate()
 
     const getMoviesList = async () => {
         const response = await getMovies()
@@ -24,7 +25,11 @@ function MovieListing() {
         getMoviesList()
     }, [])
 
-
+    const onReviewClick = (movieId) => {
+        // Navigate to the specified route (e.g., /home/add-review/:movieId)
+        // Ensure this route matches the path defined in your App.js router configuration
+        navigate(`/home/add-review/${movieId}`);
+    }
 
     return (
         <div className="container mt-4">
@@ -43,7 +48,7 @@ function MovieListing() {
                                 {/* Example of how to link to a review page using movie ID */}
                                 <button
                                     className="btn btn-primary"
-                                    onClick={() => toast.info(`Navigating to review page for ${movie.title}`)}
+                                    onClick={() => onReviewClick(movie.id)}
                                 >
                                     Review this movie
                                 </button>
