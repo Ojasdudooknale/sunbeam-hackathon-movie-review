@@ -16,6 +16,9 @@ function authorization(req, res, next) {
         
         req.headers.userId = payload.uid
         req.userId = payload.uid
+
+        req.headers.email = payload.email
+        req.email = payload.email
         next()
       } catch (e) {
         res.send(result.createResult('Invalid Token'))
