@@ -12,6 +12,15 @@ router.get('/allReviews', (req, res) => {
     });
 });
 
+//Get reviews belonging to the authenticated user ("Display My Reviews")
+router.get('/my', (req, res) => {
+    const userId = req.userId; 
+    const sql = `SELECT * FROM reviews WHERE userId = ?;`;
+    pool.query(sql, [userId], (error, data) => {
+        res.send(result.createResult(error, data));
+    });
+});
+
 //Get a single review by ID
 router.get('/:id', (req, res) => {
     const { id } = req.params;
@@ -31,14 +40,7 @@ router.get('/movie/:movieId', (req, res) => {
 });
 
 
-//Get reviews belonging to the authenticated user ("Display My Reviews")
-router.get('/my', (req, res) => {
-    const userId = req.userId; 
-    const sql = `SELECT * FROM reviews WHERE userId = ?;`;
-    pool.query(sql, [userId], (error, data) => {
-        res.send(result.createResult(error, data));
-    });
-});
+
 
 //Add a new review ("Create a Review")
 router.post('/add', (req, res) => {
