@@ -16,15 +16,18 @@ const SignIn = () => {
 
     const { setUser } = useAuth()
 
+    // Modified onLogin to accept the event object
+    const onLogin = async (e) => {
+        // Prevent default form submission behavior
+        e.preventDefault();
 
-    const onLogin = async () => {
         if (email.length == 0) {
             toast.warning('please enter email')
         } else if (password.length == 0) {
             toast.warning('please enter password')
         } else {
             const response = await login(email, password)
-            if (response['status'] == 'success') {
+            if (response && response['status'] == 'success') { // Added null check for response
                 toast.success('login successful')
 
                 // get the token from response and cache it in local storage
@@ -39,9 +42,9 @@ const SignIn = () => {
                 })
 
                 // navigate to the PropertyListing page
-                // navigate('/home/properties')
+                navigate('/home/properties') // Uncommented navigation
             } else {
-                toast.error(response['error'])
+                toast.error(response ? response['error'] : 'Login failed. Check server status.')
             }
         }
     }
@@ -62,7 +65,8 @@ const SignIn = () => {
                 </div>
 
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                    <form action="#" method="POST" className="space-y-6">
+                    {/* Add onSubmit handler to the form */}
+                    <form onSubmit={onLogin} className="space-y-6">
                         <div >
                             <label htmlFor="email" className="ml-0 block text-sm/6 font-medium text-gray-900">
                                 Email address
@@ -107,10 +111,11 @@ const SignIn = () => {
                         </div>
 
                         <div>
+                            {/* The button type can now be "submit" again as the form handler manages the action */}
+                            {/* Removed onSubmit from button */}
                             <button
                                 type="submit"
                                 className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                                onSubmit={onLogin}
                             >
                                 Sign in
                             </button>
@@ -125,12 +130,3 @@ const SignIn = () => {
 }
 
 export default SignIn
-
-
-
-
-
-
-
-
-

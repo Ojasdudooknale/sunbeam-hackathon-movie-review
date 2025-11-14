@@ -11,19 +11,22 @@ const SignUp = () => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
-    const [date, setDate] = useState(null)
+    const [birthDate, setBirthDate] = useState(null)
 
     const navigate = useNavigate()
 
-    const onRegister = async () => {
+    // Modify onRegister to accept the event object
+    const onRegister = async (e) => {
+        // Prevent default form submission behavior
+        e.preventDefault();
 
         console.log(
             firstName,
             lastName,
             email,
             password,
-            mobileNo, // Use mobileNo here
-            date
+            mobileNo,
+            birthDate
         );
         if (firstName.length == 0) {
             toast.warning('please enter first name')
@@ -46,7 +49,7 @@ const SignUp = () => {
                 email,
                 password,
                 mobileNo,
-                date
+                birthDate
             );
 
             const response = await register(
@@ -55,14 +58,13 @@ const SignUp = () => {
                 email,
                 password,
                 mobileNo,
-                date
+                birthDate
             )
-            if (response['status'] === 'success') {
+            if (response && response['status'] === 'success') { // Added null check for response
                 toast.success('Successfully registered user')
-
-                navigate('/')
+                navigate('/login') // Navigating to login after success
             } else {
-                toast.error(response['error'])
+                toast.error(response ? response['error'] : 'Registration failed. Check server status.')
             }
         }
     }
@@ -77,7 +79,8 @@ const SignUp = () => {
                 </div>
 
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                    <form action="#" method="POST" className="space-y-6">
+                    {/* Add onSubmit handler to the form */}
+                    <form onSubmit={onRegister} className="space-y-6">
 
                         <div>
                             <div className="flex items-center justify-between">
@@ -177,69 +180,71 @@ const SignUp = () => {
                                     required
                                     className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                                     onChange={(e) => {
-                                        setDate(e.target.value)
+                                        setBirthDate(e.target.value)
                                     }
                                     }
                                 />
                             </div>
                         </div>
 
-                        {/* Password Fields (added to complete the form) */}
                         <div>
-                            <label htmlFor="password"
-                                className="block text-sm/6 font-medium text-gray-900">
-                                Password
-                            </label>
+                            <div className="flex items-center justify-between">
+                                <label htmlFor="password" className="block text-sm/6 font-medium text-gray-900">
+                                    Password
+                                </label>
+                            </div>
                             <div className="mt-2">
                                 <input
                                     id="password"
                                     name="password"
                                     type="password"
-                                    autoComplete="new-password"
+                                    autoComplete="current-password"
                                     required
                                     className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                                     onChange={(e) => {
                                         setPassword(e.target.value)
-                                    }}
+                                    }
+                                    }
                                 />
                             </div>
                         </div>
 
                         <div>
-                            <label htmlFor="confirmPassword"
-                                className="block text-sm/6 font-medium text-gray-900">
-                                Confirm Password
-                            </label>
+                            <div className="flex items-center justify-between">
+                                <label htmlFor="confirmPassword" className="block text-sm/6 font-medium text-gray-900">
+                                    Confirm Password
+                                </label>
+                            </div>
                             <div className="mt-2">
                                 <input
                                     id="confirmPassword"
                                     name="confirmPassword"
                                     type="password"
-                                    autoComplete="new-password"
                                     required
                                     className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                                     onChange={(e) => {
                                         setConfirmPassword(e.target.value)
-                                    }}
+                                    }
+                                    }
                                 />
                             </div>
                         </div>
 
                         <div>
+                            {/* The button type can now be "submit" again as the form handler manages the action */}
                             <button
-
-                                onClick={onRegister}
+                                type="submit"
                                 className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                             >
-                                Register
+                                Sign up
                             </button>
                         </div>
                     </form>
 
                     <p className="mt-10 text-center text-sm text-gray-500">
-                        Already have an account?{' '}
-                        <Link to="/" className="font-semibold text-indigo-600 hover:text-indigo-500">
-                            Sign In
+                        Already a member?{' '}
+                        <Link to="/login" className="font-semibold text-indigo-600 hover:text-indigo-500">
+                            Sign in
                         </Link>
                     </p>
                 </div>

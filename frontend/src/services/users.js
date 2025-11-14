@@ -2,17 +2,19 @@ import axios from 'axios'
 import { config } from './config'
 
 
-export async function register(firstName, lastName, email, password, mobileNo, date) {
+export async function register(firstName, lastName, email, password, mobileNo, birthDate) {
+    console.log("hello this register")
     try {
         // url to send the request
+        console.log(config.server)
         const url = `${config.server}/user/register`
 
-       
-        const body = { firstName, lastName, email, password, mobileNo, date }
+
+        const body = { firstName, lastName, email, password, mobileNo, birthDate }
 
         // send POST request
         const response = await axios.post(url, body)
-
+        console.log(response.data)
         // return response body
         return response.data
     } catch (ex) {
