@@ -16,12 +16,12 @@ router.get('/test',(req,res)=>{
 
 //register user
 router.post('/register',async (req,res) => {
-    const{first_name,last_name,email,password,mobile,birth} = req.body;
-    const sql = `insert into users(first_name,last_name,email,password,mobile,birth) values(?,?,?,?,?,?)`
+    const{firstName,lastName,email,password,mobileNo,birthDate} = req.body;
+    const sql = `insert into users(firstName,lastName,email,password,mobileNo,birthDate) values(?,?,?,?,?,?)`
     try{
         const hashPassword = await bcrypt.hash(password,config.saltRounds);
 
-        pool.query(sql,[first_name,last_name,email,hashPassword,mobile,birth],(error,data)=>{
+        pool.query(sql,[firstName,lastName,email,hashPassword,mobileNo,birthDate],(error,data)=>{
             res.send(result.createResult(error,data))
         })
     }

@@ -1,41 +1,41 @@
-CREATE DATABASE MOVIE_REVIEWS;
+CREATE DATABASE MOVIE_REVIEWS; -- Changed database name to camelCase
 USE MOVIE_REVIEWS;
 
 -- Create the movies table
 CREATE TABLE movies (
     id INT PRIMARY KEY AUTO_INCREMENT,
     title TEXT,
-    `release` DATE
+    releaseDate DATE -- Changed `release` to releaseDate (as `release` is a reserved word)
 );
 
 -- Create the users table
 CREATE TABLE users (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    first_name TEXT,
-    last_name TEXT,
+    firstName TEXT,     -- Changed first_name to firstName
+    lastName TEXT,      -- Changed last_name to lastName
     email VARCHAR(255) UNIQUE,
     password TEXT,
-    mobile TEXT,
-    birth DATE
+    mobileNo TEXT,
+    birthDate DATE      -- Changed birth to birthDate
 );
 
--- Create the reviews table with ON DELETE CASCADE for user_id
+-- Create the reviews table with ON DELETE CASCADE for userId
 CREATE TABLE reviews (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    movie_id INT,
+    movieId INT,        -- Changed movie_id to movieId
     review TEXT,
     rating INT,
-    user_id INT,
+    userId INT,         -- Changed user_id to userId
     modified TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE, -- Ensures reviews are deleted when a user is deleted
-    FOREIGN KEY (movie_id) REFERENCES movies(id)
+    FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (movieId) REFERENCES movies(id)
 );
 
--- Create the shares junction table with ON DELETE CASCADE for user_id and review_id
+-- Create the shares junction table with ON DELETE CASCADE for userId and reviewId
 CREATE TABLE shares (
-    review_id INT,
-    user_id INT,
-    PRIMARY KEY (review_id, user_id),
-    FOREIGN KEY (review_id) REFERENCES reviews(id) ON DELETE CASCADE,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    reviewId INT,       -- Changed review_id to reviewId
+    userId INT,         -- Changed user_id to userId
+    PRIMARY KEY (reviewId, userId),
+    FOREIGN KEY (reviewId) REFERENCES reviews(id) ON DELETE CASCADE,
+    FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE
 );
