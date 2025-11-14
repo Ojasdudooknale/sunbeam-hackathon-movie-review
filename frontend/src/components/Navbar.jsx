@@ -28,50 +28,38 @@ function Navbar() {
 
     return (
         <div className='container-fluid'>
-            {/* Using className for React, using bg-dark theme for better visibility */}
-            <nav className="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
-                <div className="container-fluid">
-                    <Link to='movies' className="navbar-brand">Movie Reviews</Link>
-
-                    {/* FIXED: Added data-bs-toggle and data-bs-target attributes */}
-                    <button
-                        className="navbar-toggler"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#navbarSupportedContent"
-                        aria-controls="navbarSupportedContent"
-                        aria-expanded="false"
-                        aria-label="Toggle navigation"
-                    >
-                        <span className="navbar-toggler-icon"></span>
-                    </button>
-
-                    <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li className="nav-item">
-                                {/* Adjusted 'to' paths to be relative to the current /home route */}
-                                <Link className="nav-link active" to='movies' aria-current="page">All Movies</Link>
+            <div className='container-fluid'>
+                <nav class="navbar navbar-expand-lg bg-body-tertiary">
+                    <div class="container-fluid">
+                        <Link to='' class="navbar-brand">Movie Reviews</Link>
+                        <button class="navbar-toggler" type="button" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <Link class="nav-link active" to='display-all-movies' aria-current="page" href="#">All Movies</Link>
                             </li>
-                            <li className="nav-item">
-                                <Link className="nav-link" to="my-reviews">My Reviews</Link>
+                            <li class="nav-item">
+                                <Link class="nav-link" to="my-reviews">My Reviews</Link>
                             </li>
-                            <li className="nav-item">
-                                <Link className="nav-link" to="share-reviews">Shared with me</Link>
+                            <li class="nav-item">
+                                <Link class="nav-link" to="shared-with-me">Shared with me</Link>
                             </li>
-                            <li className="nav-item">
-                                <Link className="nav-link" to="all-reviews">All Reviews</Link>
+                            <li class="nav-item">
+                                <Link class="nav-link" to="all-reviews">All Reviews</Link>
                             </li>
                         </ul>
-                        <div className="d-flex gap-4 align-items-center">
-                            <Link to="edit" className='nav-link'>Edit Profile</Link>
-                            <Link to='change-pass' className='nav-link'>Change Password</Link>
-                            {/* Changed type="submit" to type="button" for logout button */}
-                            <button className="btn text-warning" type="button" onClick={onLogout}>Logout</button>
+                        <div class="d-flex gap-4 align-items-center">
+                            <Link to="edit-profile" className='nav-link'>Edit Profile</Link>
+                            <Link to='change-password' className='nav-link'>Change Password</Link>
+                            <button class="btn text-warning" type="submit" onClick={onLogout}>Logout</button>
                         </div>
                     </div>
-                </div>
-            </nav>
+                </nav>
+            </div>
+
         </div>
+
     )
 }
 
