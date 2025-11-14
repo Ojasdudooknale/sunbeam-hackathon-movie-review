@@ -43,7 +43,7 @@ const EditProfile = () => {
 
             if (response.status === 'success') {
                 toast.success('Profile updated successfully!');
-                navigate('/home/profile'); // Navigate back to profile view
+                navigate('/home/movies'); // Navigate back to profile view
             } else {
                 toast.error(response.error || 'Failed to update profile.');
             }

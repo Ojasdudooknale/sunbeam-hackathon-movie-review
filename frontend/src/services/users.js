@@ -65,3 +65,26 @@ export async function editProfile(firstName, lastName, email, password, mobileNo
         return { status: 'error', error: ex.message || 'An error occurred during profile update.' };
     }
 }
+
+
+
+export async function changePassword(oldPassword, newPassword) {
+    try {
+        // Update this line to match the backend route:
+        const url = `${config.server}/user/changePassword`; // <-- Changed path
+
+        const body = { oldPassword, newPassword };
+
+        const response = await axios.put(url, body, {
+            headers: {
+                token: localStorage.getItem('token'),
+            },
+        });
+
+        console.log(response.data);
+        return response.data;
+    } catch (ex) {
+        console.log(`exception in changePassword: `, ex);
+        return { status: 'error', error: ex.message || 'An error occurred during password change.' };
+    }
+}
