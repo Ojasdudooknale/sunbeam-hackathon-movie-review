@@ -32,17 +32,18 @@ const SignIn = () => {
 
                 // get the token from response and cache it in local storage
                 localStorage.setItem('token', response['data']['token'])
-                // localStorage.setItem('firstName', response['data']['firstName'])
-                // localStorage.setItem('lastName', response['data']['lastName'])
+                localStorage.setItem('firstName', response['data']['firstName'])
+                localStorage.setItem('lastName', response['data']['lastName'])
 
                 // set the logged in user information
                 setUser({
                     firstName: response['data']['firstName'],
                     lastName: response['data']['lastName'],
+                    token: response['data']['token'],
                 })
 
                 // navigate to the PropertyListing page
-                navigate('/home/properties') // Uncommented navigation
+                navigate('/home/movies') // Uncommented navigation
             } else {
                 toast.error(response ? response['error'] : 'Login failed. Check server status.')
             }
@@ -111,15 +112,21 @@ const SignIn = () => {
                         </div>
 
                         <div>
-                            {/* The button type can now be "submit" again as the form handler manages the action */}
-                            {/* Removed onSubmit from button */}
+
                             <button
                                 type="submit"
                                 className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                             >
                                 Sign in
                             </button>
+
                         </div>
+                        <p className="mt-10 text-center text-sm text-gray-500">
+                            Dont have an Account?{' '}
+                            <Link to="/register" className="font-semibold text-indigo-600 hover:text-indigo-500">
+                                Sign up
+                            </Link>
+                        </p>
                     </form>
 
 

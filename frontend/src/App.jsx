@@ -4,7 +4,10 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
+import Home from './pages/Home'
+import MovieListing from './pages/MovieListing'
 import AuthProvider from './providers/AuthProvider'
+import ProtectedRoute from './components/ProtectedRoute'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 
@@ -30,7 +33,7 @@ function App() {
             element={<SignUp />}
           />
 
-          {/* <Route
+          <Route
             path='home'
             element={
               <ProtectedRoute>
@@ -39,34 +42,42 @@ function App() {
             }
           >
             <Route
-              path='properties'
-              element={<PropertyListing />}
+              path='movies'
+              element={<MovieListing />}
             />
             <Route
-              path='property-details'
-              element={<PropertyDetails />}
+              path='my-reviews'
+            //element={<PropertyDetails />}
             />
             <Route
-              path='add-property'
-              element={<AddProperty />}
+              path='share-reviews'
+            //element={<PropertyDetails />}
             />
             <Route
-              path='cart'
-              element={<Cart />}
+              path='add-review'
+            //element={<AddProperty />}
             />
             <Route
-              path='about-us'
-              element={<AboutUs />}
+              path='all-reviews'
+            //element={<PropertyDetails />}
             />
             <Route
+              path='edit'
+            //element={<Cart />}
+            />
+            <Route
+              path='change-pass'
+            //element={<AboutUs />}
+            />
+            {/* <Route
               path='contact-us'
               element={<ContactUs />}
             />
             <Route
               path='bookings'
               element={<Bookings />}
-            />
-          </Route> */}
+            /> */}
+          </Route>
         </Routes>
       </AuthProvider>
       <ToastContainer />
