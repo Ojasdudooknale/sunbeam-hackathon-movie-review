@@ -134,4 +134,42 @@ router.put('/profile/update', async (req, res) => {
 });
 
 
+router.put('/changePassword', async (req, res) => {
+    const userId = req.userId;
+
+    if (!userId) {
+        return res.status(401).send(result.createErrorResult('Unauthorized: User ID not found.'));
+    }
+
+    const { oldPassword, newPassword } = req.body;
+
+    const selectSql = 'SELECT password FROM users WHERE id = ?';
+
+    pool.query(selectSql, [userId], async (error, data) => {
+        if (error || data.length === 0) {
+            res.send(result.createErrorResult('User not found or database error.'));
+            return;
+        }
+
+        const dbuser = data[0];
+        const check = await bcrypt.compare(oldPassword, dbuser.password);
+
+        if (!check) {
+            res.send(result.createErrorResult('Invalid old password.'));
+        } else {
+            const newHashPassword = await bcrypt.hash(newPassword, config.saltRounds);
+
+            const updateSql = 'UPDATE users SET password = ? WHERE id = ?';
+
+            pool.query(updateSql, [newHashPassword, userId], (updateError, updateData) => {
+                if (updateError) {
+                    res.send(result.createErrorResult('Failed to update password.'));
+                } else {
+                    res.send(result.createResult(null, { message: 'Password updated successfully.' }));
+                }
+            });
+        }
+    });
+});
+
 module.exports = router
