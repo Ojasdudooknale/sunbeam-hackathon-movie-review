@@ -21,6 +21,17 @@ router.get('/my', (req, res) => {
     });
 });
 
+//Add a new review ("Create a Review")
+router.post('/add', (req, res) => {
+    const userId = req.userId;
+    const { movieId, review, rating } = req.body;
+    const sql = `INSERT INTO reviews (movieId, review, rating, userId) VALUES (?, ?, ?, ?);`;
+    
+    pool.query(sql, [movieId, review, rating, userId], (error, data) => {
+        res.send(result.createResult(error, data));
+    });
+});
+
 //Get a single review by ID
 router.get('/:id', (req, res) => {
     const { id } = req.params;
@@ -41,17 +52,6 @@ router.get('/movie/:movieId', (req, res) => {
 
 
 
-
-//Add a new review ("Create a Review")
-router.post('/add', (req, res) => {
-    const userId = req.userId;
-    const { movieId, review, rating } = req.body;
-    const sql = `INSERT INTO reviews (movieId, review, rating, userId) VALUES (?, ?, ?, ?);`;
-    
-    pool.query(sql, [movieId, review, rating, userId], (error, data) => {
-        res.send(result.createResult(error, data));
-    });
-});
 
 //Update a review by ID ("Edit Review") - Ensures ownership
 router.put('/update/:id', (req, res) => {
