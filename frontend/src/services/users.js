@@ -39,3 +39,29 @@ export async function login(email, password) {
         console.log(`exception: `, ex)
     }
 }
+
+export async function editProfile(firstName, lastName, email, password, mobileNo, birthDate) {
+    console.log("hello this register");
+    try {
+
+        console.log(config.server);
+        const url = `${config.server}/user/profile/update`;
+
+        const body = { firstName, lastName, email, password, mobileNo, birthDate };
+
+
+        const response = await axios.put(url, body, {
+            headers: {
+                token: localStorage.getItem('token'),
+            },
+        });
+
+        console.log(response.data);
+
+        return response.data;
+    } catch (ex) {
+        console.log(`exception: `, ex);
+
+        return { status: 'error', error: ex.message || 'An error occurred during profile update.' };
+    }
+}

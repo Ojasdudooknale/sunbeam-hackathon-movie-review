@@ -13,6 +13,8 @@ import { ToastContainer } from 'react-toastify'
 import AddReview from './pages/AddReview'
 import AllReviews from './pages/AllReviews'
 import MyReview from './pages/Myreview'
+import EditProfile from './pages/EditProfile'
+import ChangePassword from './pages/ChangePassword'
 
 
 function App() {
@@ -67,20 +69,13 @@ function App() {
             />
             <Route
               path='edit'
-            //element={<Cart />}
+              element={<EditProfile />}
             />
             <Route
               path='change-pass'
-            //element={<AboutUs />}
+              element={<ChangePassword />}
             />
-            {/* <Route
-              path='contact-us'
-              element={<ContactUs />}
-            />
-            <Route
-              path='bookings'
-              element={<Bookings />}
-            /> */}
+
           </Route>
         </Routes>
       </AuthProvider>
