@@ -32,15 +32,6 @@ router.post('/add', (req, res) => {
     });
 });
 
-//Get a single review by ID
-router.get('/:id', (req, res) => {
-    const { id } = req.params;
-    const sql = `SELECT * FROM reviews WHERE id = ?;`;
-    pool.query(sql, [id], (error, data) => {
-        res.send(result.createResult(error, data));
-    });
-});
-
 //Get all reviews for a specific movie ID
 router.get('/movie/:movieId', (req, res) => {
     const { movieId } = req.params;
