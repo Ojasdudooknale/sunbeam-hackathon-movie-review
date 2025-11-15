@@ -38,18 +38,18 @@ const AllReviews = () => {
         <div className="container mt-4">
             <h1>All Movie Reviews</h1>
             {reviews.map((review) => {
-                
+
                 const displayRating = isNaN(Number(review.rating)) ? 'N/A' : `${review.rating}/10`;
 
                 return (
                     <div className="card mb-3" key={review.reviewId || review.id || Math.random()}>
                         <div className="card-header">
-                            Review for: **{review.movieTitle || 'Movie Title Not Found'}**
+                            Review for: **{review.title || 'Movie Title Not Found'}**
                         </div>
                         <div className="card-body">
-                           
+
                             <h5 className="card-title">Rating: {displayRating}</h5>
-                            <p className="card-text">{review.comment}</p>
+                            <p className="card-text">{review.review}</p>
                         </div>
                     </div>
                 );

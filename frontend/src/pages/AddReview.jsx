@@ -52,7 +52,7 @@ const AddReview = () => {
             // Send the required data payload to the backend
             // You might need to adjust these key names based on your backend API specs
             movieId: movieId,
-            comment: reviewText,
+            review: reviewText,
             rating: rating,
             // Backend usually handles adding the userId via the auth token
         };
